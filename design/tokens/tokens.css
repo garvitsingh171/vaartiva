@@ -1,0 +1,81 @@
+/* VRT-004 proposal. Source of truth: tokens.json. */
+:root, [data-theme="light"] {
+  --v-bg-canvas: #F7F9FC;
+  --v-bg-surface: #FFFFFF;
+  --v-bg-raised: #EFF3F9;
+  --v-text-primary: #1A2A40;
+  --v-text-secondary: #52637A;
+  --v-border-interactive: #8495AC;
+  --v-action-primary: #3856D6;
+  --v-action-primary-hover: #2942AB;
+  --v-action-on-primary: #FFFFFF;
+  --v-ai-accent: #6842B5;
+  --v-ai-on-accent: #FFFFFF;
+  --v-ai-surface: #F0EAFE;
+  --v-ai-on-surface: #582F9B;
+  --v-status-success: #166A49;
+  --v-status-warning: #805200;
+  --v-status-danger: #A92D26;
+  --v-focus-ring: #0A5ABD;
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  --v-bg-canvas: #0D1627;
+  --v-bg-surface: #151F34;
+  --v-bg-raised: #21304B;
+  --v-text-primary: #F2F5FF;
+  --v-text-secondary: #B6C7DF;
+  --v-border-interactive: #8091AF;
+  --v-action-primary: #AFC3FF;
+  --v-action-primary-hover: #CCD8FF;
+  --v-action-on-primary: #0D1627;
+  --v-ai-accent: #CFB8FF;
+  --v-ai-on-accent: #0D1627;
+  --v-ai-surface: #2C2142;
+  --v-ai-on-surface: #E3D5FF;
+  --v-status-success: #67DAB1;
+  --v-status-warning: #FFD27A;
+  --v-status-danger: #FFA7A0;
+  --v-focus-ring: #B7C8FF;
+  color-scheme: dark;
+}
+:root {
+  --v-space-0: 0px;
+  --v-space-1: 4px;
+  --v-space-2: 8px;
+  --v-space-3: 12px;
+  --v-space-4: 16px;
+  --v-space-5: 20px;
+  --v-space-6: 24px;
+  --v-space-8: 32px;
+  --v-space-10: 40px;
+  --v-space-12: 48px;
+  --v-space-16: 64px;
+  --v-radius-none: 0px;
+  --v-radius-sm: 6px;
+  --v-radius-md: 10px;
+  --v-radius-lg: 16px;
+  --v-radius-xl: 24px;
+  --v-radius-pill: 9999px;
+  --v-font-xs: 12px;
+  --v-font-sm: 14px;
+  --v-font-base: 16px;
+  --v-font-lg: 18px;
+  --v-font-xl: 22px;
+  --v-font-2xl: 28px;
+  --v-font-3xl: 36px;
+  --v-line-xs: 16px;
+  --v-line-sm: 20px;
+  --v-line-base: 24px;
+  --v-line-lg: 28px;
+  --v-line-xl: 30px;
+  --v-line-2xl: 36px;
+  --v-line-3xl: 44px;
+  --v-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --v-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --v-motion-fast: 120ms;
+  --v-motion-normal: 200ms;
+  --v-motion-slow: 320ms;
+  --v-focus-width: 2px;
+}
+@media (prefers-reduced-motion: reduce) { :root { --v-motion-fast: 0ms; --v-motion-normal: 0ms; --v-motion-slow: 0ms; } }
