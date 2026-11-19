@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vaartiva UI Kit — VRT-004 Preview</title>
+<link rel="stylesheet" href="./tokens/tokens.css" />
+<style>
+* { box-sizing: border-box; }
+html { font-family: var(--v-font-sans); }
+body { margin:0; background:var(--v-bg-canvas);color:var(--v-text-primary);line-height:1.5; }
+button { font:inherit;cursor:pointer; }
+button:focus-visible { outline:var(--v-focus-width) solid var(--v-focus-ring);outline-offset:3px; }
+.container { max-width:1190px; margin:auto;padding:32px 24px 72px; }
+nav { display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap; padding-bottom:20px;border-bottom:1px solid var(--v-border-interactive); }
+.wordmark { font-size:27px;font-weight:800;letter-spacing:-1px; }
+.wordmark span { color:var(--v-action-primary); }
+.sub { color:var(--v-text-secondary);margin:8px 0 0; }
+.eyebrow { color:var(--v-text-secondary);font-size:12px;letter-spacing:1.2px;text-transform:uppercase;font-weight:750; }
+h1 { font-size:clamp(28px,4vw,43px);letter-spacing:-1px;line-height:1.2;margin:26px 0 10px; }
+h2 { font-size:23px;margin:40px 0 14px;letter-spacing:-.4px; }
+h3 { font-size:16px;margin:0 0 8px; }
+.pill { border-radius:999px;padding:4px 10px;font-size:12px;font-weight:750;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--v-border-interactive); }
+.pill.ai { background:var(--v-ai-surface);color:var(--v-ai-on-surface);border-color:var(--v-ai-on-surface); }
+.pill.success { color:var(--v-status-success); }
+.pill.warning { color:var(--v-status-warning); }
+.pill.danger { color:var(--v-status-danger); }
+.surface { background:var(--v-bg-surface);border:1px solid var(--v-border-interactive);border-radius:var(--v-radius-lg);padding:20px; }
+.grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px; }
+.pair { display:grid; grid-template-columns:1fr 1fr;gap:14px; }
+.swatch { border:1px solid var(--v-border-interactive);overflow:hidden;border-radius:12px;background:var(--v-bg-surface); }
+.swatch .color { height:78px; }
+.swatch .lbl { padding:11px 12px; font-size:13px;color:var(--v-text-primary); }
+.row { display:flex;align-items:center;gap:10px;flex-wrap:wrap; }
+.btn { border-radius:var(--v-radius-md);border:2px solid transparent;padding:11px 17px;min-height:44px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:7px; }
+.btn.primary { background:var(--v-action-primary);color:var(--v-action-on-primary); }
+.btn.secondary { background:var(--v-bg-surface);color:var(--v-text-primary);border-color:var(--v-border-interactive); }
+.btn.ai { background:var(--v-ai-accent);color:var(--v-ai-on-accent); }
+.btn.outline { border-color:var(--v-status-danger);background:var(--v-bg-surface);color:var(--v-status-danger); }
+.btn[disabled] {opacity:.55;cursor:not-allowed;}
+.sample-label { color:var(--v-text-secondary);font-size:13px;font-weight:650; }
+.fake-input { padding:12px 14px; min-height:45px;border:2px solid var(--v-border-interactive);border-radius:var(--v-radius-md);background:var(--v-bg-surface);margin:8px 0 14px; }
+.tile { min-height:140px;border:1px solid var(--v-border-interactive);border-radius:14px;background:var(--v-bg-raised);padding:16px;display:flex;flex-direction:column;justify-content:space-between; }
+.tile.ai-tile { border:2px solid var(--v-ai-accent);background:var(--v-ai-surface); }
+.avatar { width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:750;color:var(--v-action-on-primary);background:var(--v-action-primary); }
+.avatar.ai { background:var(--v-ai-accent);color:var(--v-ai-on-accent);border-radius:14px; }
+.small {font-size:13px;color:var(--v-text-secondary);}
+.ai-tile .small {color:var(--v-ai-on-surface);}
+.callbar {padding:13px;background:var(--v-bg-raised);border-radius:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px; }
+.ai-answer {background:var(--v-ai-surface); border-left:4px solid var(--v-ai-accent);padding:16px;border-radius:12px;}
+.ai-answer p { color:var(--v-ai-on-surface); margin:9px 0 4px; }
+.status-line { display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px; }
+.subtitle {color:var(--v-text-secondary);margin:0 0 14px;}
+.note {padding:15px 18px;border-radius:12px;background:var(--v-bg-raised);border-left:4px solid var(--v-focus-ring); }
+.compact {gap:8px;}
+footer {margin-top:45px;padding-top:16px;border-top:1px solid var(--v-border-interactive);color:var(--v-text-secondary);font-size:13px;}
+@media(max-width:820px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}.container{padding:20px 16px 45px}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.pair{grid-template-columns:1fr}.btn{flex:1}.wordmark{font-size:23px}}
+@media(prefers-reduced-motion:no-preference){button{transition:background var(--v-motion-fast),transform var(--v-motion-fast)}button:active:not([disabled]){transform:scale(.98)}}
+</style>
+</head>
+<body>
+<div class="container">
+<nav><div class="wordmark">vaarti<span>va</span></div><div class="row"><span class="pill">VRT-004 · Proposal</span><button type="button" id="theme" class="btn secondary" aria-label="Switch to dark theme">Switch to dark theme</button></div></nav>
+<header><h1>One language for every meeting.</h1><p class="sub">A proposed foundation for calm collaboration, recognizable AI, and trustworthy action states — web, Android and iOS.</p></header>
+<section><h2>Color foundations</h2><div class="grid">
+<div class="swatch"><div class="color" style="background:var(--v-action-primary)"></div><div class="lbl"><strong>Primary</strong><div class="small">Calls to action</div></div></div>
+<div class="swatch"><div class="color" style="background:var(--v-ai-accent)"></div><div class="lbl"><strong>AI identity</strong><div class="small">Visible AI participant</div></div></div>
+<div class="swatch"><div class="color" style="background:var(--v-bg-raised)"></div><div class="lbl"><strong>Raised surface</strong><div class="small">Layered workspace</div></div></div>
+</div></section>
+<section><h2>Buttons and input specimens</h2><div class="surface"><div class="row"><div class="btn primary" aria-hidden="true">Create meeting</div><div class="btn secondary" aria-hidden="true">Invite guest</div><div class="btn ai" aria-hidden="true">✦ Ask Vaartiva AI</div><div class="btn outline" aria-hidden="true">Leave meeting</div><button class="btn secondary" disabled>Processing…</button></div><p class="small">Static specimens. Only the theme control at the top is interactive.</p><div class="pair"><div><div class="sample-label">Meeting title</div><div class="fake-input">Sprint planning</div></div><div><div class="sample-label">Invitation state</div><div class="fake-input">Waiting for host approval</div></div></div><div class="row compact"><span class="pill success">✓ Connected</span><span class="pill warning">! Consent incomplete</span><span class="pill danger">✕ Invite expired</span><span class="pill ai">✦ AI · Ready</span></div></div></section>
+<section><h2>Meeting participants</h2><div class="grid"><div class="tile"><div class="avatar">AS</div><div><strong>Anaya · Host</strong><div class="small">Microphone on · Connected</div></div></div><div class="tile"><div class="avatar">RK</div><div><strong>Ravi · Guest</strong><div class="small">Camera off · Limited access</div></div></div><div class="tile ai-tile"><div class="avatar ai">✦ AI</div><div><strong>Vaartiva AI</strong><div class="small">AI participant · Ready, not recording</div></div></div></div><div class="callbar"><span class="pill">Mic on</span><span class="pill">Camera on</span><span class="pill">Share screen</span><span class="pill warning">Transcription: consent pending</span><span class="pill ai">✦ Ask AI</span></div></section>
+<section><h2>Evidence and actions</h2><div class="pair"><div class="ai-answer"><div class="status-line"><strong>✦ Vaartiva AI</strong><span class="pill ai">Only you · Private answer</span></div><p>Here's what the approved sprint notes say. I can show the supporting sources.</p><div class="small">Example response · Source: authorized document</div></div><div class="surface"><div class="status-line"><strong>Proposed action</strong><span class="pill warning">Needs approval</span></div><p class="subtitle">Create task: Review mobile joining edge cases.</p><div class="row"><span class="pill">Review exact parameters</span><span class="pill">Not executed</span></div></div></div></section>
+<section><h2>Design constraints</h2><div class="note">Selected palette pairs pass the documented solid-color contrast checks. This preview is not a complete Figma library, functional prototype, or proof of accessibility compliance. Labels and permissions must also be enforced in application code and backend policies.</div></section>
+<footer>Vaartiva design proposal · VRT-004 · Tokens are in <code>design/tokens/tokens.json</code>. Fonts use local system fallbacks.</footer>
+</div>
+<script>
+const button=document.getElementById('theme');
+const root=document.documentElement;
+button.addEventListener('click',()=>{
+ const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+ root.setAttribute('data-theme',next);
+ const target=next==='dark'?'light':'dark';
+ button.textContent='Switch to '+target+' theme';
+ button.setAttribute('aria-label','Switch to '+target+' theme');
+});
+</script>
+</body></html>
