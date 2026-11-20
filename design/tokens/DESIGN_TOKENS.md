@@ -1,91 +1,95 @@
 # Vaartiva — Cross-Platform Design Tokens
 
-> **VRT-004** · Version 0.1 · Proposed token spec; not production-integrated.
+> **VRT-004** · Version 0.2 · Refined charcoal, copper, gold and warm-ivory palette.
 
-## 1. Single naming contract
+## 1. Source of truth and naming
 
-**Canonical source:** [`design/tokens/tokens.json`](../../design/tokens/tokens.json). `semantic.light.color.*` and `semantic.dark.color.*` have exactly the same paths. Application code asks for **semantic purpose** rather than raw hex values.
+**Canonical source:** [`tokens.json`](./tokens.json). Raw palette values live under `primitive.color.*`; UI code uses `semantic.light.color.*` or `semantic.dark.color.*`. The paths below those theme prefixes are identical, so clients share meaning without sharing platform-specific rendering.
 
-Examples: `color.background.surface`, `color.text.primary`, `color.action.primary`, `color.ai.accent`, `color.focus.ring`. In a theme context, remove the `semantic.<theme>.` prefix and use the same key name across clients.
+Examples: `color.background.canvas`, `color.text.primary`, `color.action.primary`, `color.ai.accent`, `color.status.success`, and `color.focus.ring`.
 
-| Canonical semantic key | CSS custom property | Web use (later) | Native use (later) |
+| Canonical semantic key | CSS custom property | Web meaning | Native meaning |
 |---|---|---|---|
-| `color.background.canvas` | `--v-bg-canvas` | App background | Screen background style |
-| `color.background.surface` | `--v-bg-surface` | Card / sheet | View background |
-| `color.text.primary` | `--v-text-primary` | Body text | Text color |
-| `color.text.secondary` | `--v-text-secondary` | Support text | Text color |
-| `color.border.interactive` | `--v-border-interactive` | Input/outline | View border |
+| `color.background.canvas` | `--v-bg-canvas` | App background | Screen background |
+| `color.background.surface` | `--v-bg-surface` | Cards and sheets | View background |
+| `color.background.raised` | `--v-bg-raised` | Secondary panels | Elevated surface |
+| `color.background.popover` | `--v-bg-popover` | Dialogs and popovers | Modal/sheet surface |
+| `color.text.primary` | `--v-text-primary` | Essential text | Text color |
+| `color.text.secondary` | `--v-text-secondary` | Supporting text | Text color |
+| `color.border.interactive` | `--v-border-interactive` | Input/control boundary | View border |
 | `color.action.primary` | `--v-action-primary` | Primary CTA | Primary Pressable |
-| `color.action.onPrimary` | `--v-action-on-primary` | CTA label | CTA Text |
-| `color.ai.accent` | `--v-ai-accent` | AI emphasis | AI badge foreground |
-| `color.ai.onAccent` | `--v-ai-on-accent` | AI badge label | AI badge Text |
-| `color.focus.ring` | `--v-focus-ring` | Focus outline | Native focus/highlight equivalent |
+| `color.action.onPrimary` | `--v-action-on-primary` | CTA label | CTA text |
+| `color.ai.accent` | `--v-ai-accent` | AI identity foreground | AI badge foreground |
+| `color.ai.onAccent` | `--v-ai-on-accent` | AI badge label | AI badge text |
+| `color.status.success` | `--v-status-success` | Successful state text/icon | Successful state text/icon |
+| `color.status.warning` | `--v-status-warning` | Warning text/icon | Warning text/icon |
+| `color.status.danger` | `--v-status-danger` | Destructive/error text/icon | Destructive/error text/icon |
+| `color.focus.ring` | `--v-focus-ring` | Keyboard focus outline | Platform focus equivalent |
 
-The rest of the semantic roles appear in the JSON source. The CSS is a **manually checked representation** for design preview; an automatic build-time export can replace it in the implementation phase.
+The CSS file is the preview's manually maintained adapter. No app theme adapter exists in this checkout.
 
-## 2. Color roles
+## 2. Brand and semantic color roles
 
 | Role | Light | Dark | Usage |
 |---|---|---|---|
-| Canvas | `#F7F9FC` | `#0D1627` | Application backdrop |
-| Surface | `#FFFFFF` | `#151F34` | Cards and overlays |
-| Raised | `#EFF3F9` | `#21304B` | Secondary panels |
-| Text primary | `#1A2A40` | `#F2F5FF` | All essential text |
-| Text secondary | `#52637A` | `#B6C7DF` | Hints, metadata |
-| Primary action | `#3856D6` | `#AFC3FF` | Primary call-to-action |
-| AI accent | `#6842B5` | `#CFB8FF` | AI identity only |
-| AI subtle surface | `#F0EAFE` | `#2C2142` | AI information panels |
-| Focus ring | `#0A5ABD` | `#B7C8FF` | High-visibility focus |
-| Danger | `#A92D26` | `#FFA7A0` | Destructive / error |
+| Canvas | `#F8F5F1` | `#141316` | Warm ivory / graphite foundation |
+| Surface | `#FEFCFA` | `#1E1C20` | Cards, dialogs and popovers |
+| Raised | `#F0ECE7` | `#2A272C` | Secondary and elevated panels |
+| Primary action | `#9C3D20` | `#F6A17E` | Copper CTA; soft copper in dark mode |
+| AI identity | `#80531B` | `#F4D097` | Champagne gold for AI labels and accents |
+| Text primary | `#272427` | `#F4F0EC` | Essential text |
+| Text secondary | `#625B57` | `#C0B9B3` | Supporting text |
+| Success | `#315B73` | `#A9CDE2` | Labeled blue-slate success state |
+| Warning | `#70470C` | `#F3C66F` | Muted amber warning |
+| Destructive | `#A12E28` | `#FFAAA3` | Error and destructive state |
+| Focus ring | `#9C3D20` | `#F6A17E` | Visible focus against the canvas |
 
-**Rule:** accessibility is evaluated on complete foreground/background pairs. Don't reuse a dark-mode text token with a light-mode surface or treat arbitrary semi-transparent tokens as contrast-checked.
+Gold identifies AI and is not a general-purpose decoration or button color. Status meaning always includes a text or icon cue. The success color is blue-slate; warnings use amber and destructive states use red.
+
+**Contrast rule:** assess complete foreground/background pairs, not primitive values alone. Do not mix a dark theme foreground with a light surface or assume a translucent color has the same contrast as its solid token.
 
 ## 3. Typography
 
-- Family: `Inter`, `ui-sans-serif`, `system-ui` fallbacks for web; system font with matched numeric type roles on native.
+- Family: `Inter`, `ui-sans-serif`, `system-ui`, and platform sans fallbacks; no bundled font files.
 - Weight recommendations: regular 400, medium 500, semibold 600, bold 700.
-- Type scale (`px` / line-height `px`): XS 12/16; SM 14/20; Base 16/24; LG 18/28; XL 22/30; 2XL 28/36; 3XL 36/44.
-- Base content never depends on 12px for required explanations. Caption text may be 12px where readability and contrast permit.
-- Native implementation should use scalable text units and OS font scaling rather than hardcoded pixel-perfect layouts.
-- Code/IDs: monospace stack, never as the sole indicator of a user's role.
+- Type scale (size / line-height): XS 12/16; SM 14/20; Base 16/24; LG 18/28; XL 22/30; 2XL 28/36; 3XL 36/44.
+- Required explanations do not depend on 12px text. Captions may use 12px when contrast and scaling remain adequate.
+- Native clients should use scalable text units and OS font scaling.
+- IDs and codes may use monospace, never as the sole indicator of a user's role.
 
 ## 4. Spacing, radius, sizing
 
-- **4px spacing grid:** 0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64px. Use named scale keys `space.0`, `.1`, `.2`, `.3`, `.4`, `.5`, `.6`, `.8`, `.10`, `.12`, `.16`.
-- **Radii:** none 0, sm 6, md 10, lg 16, xl 24, pill 9999px. Tokens: `radius.sm` etc.
-- **Touch-target guideline:** design interactive mobile targets around 44–48 logical pixels minimum wherever feasible; formal WCAG 2.2 AA target-size evaluation has separate 24 CSS pixel and exception rules.
-- **Layout:** max text line ~70 characters for long explanatory blocks; narrow phone uses one main column; wide desktop can use stable auxiliary rails.
-- **Elevation:** prefer surfaces, borders and spacing first; optional web shadows `0 2px 8px rgb(12 25 50 / 8%)` and `0 8px 24px rgb(12 25 50 / 12%)`. Native shadows are platform implementations, not copied CSS.
+- **4px spacing grid:** 0, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64px.
+- **Radii:** none 0, sm 6, md 10, lg 16, xl 24, pill 9999px.
+- **Touch targets:** aim for 44–48 logical pixels where feasible; WCAG 2.2 AA target-size evaluation has its own 24 CSS pixel criterion and exceptions.
+- **Layout:** target roughly 70 characters per long text line; use one main column on narrow phones and stable auxiliary rails on wide screens.
+- **Elevation:** prefer surfaces, borders and spacing first. Optional web shadows use neutral charcoal; native shadows are platform implementations.
 
 ## 5. Motion
 
 - Duration scale: instant 0, fast 120ms, normal 200ms, slow 320ms.
-- Animate only layout context or state changes useful to comprehension. Transcription consent and approval changes must be immediately reflected without animation delays.
-- Honor reduced-motion preference on web and native. No essential information appears exclusively during animation.
-- No animated AI pulsing that could be confused with active speech capture unless the state is explicitly labeled and technically true.
+- Animate only state or layout changes that aid comprehension. Consent and approval changes must appear immediately.
+- Honor reduced-motion preference on web and native. Essential information never depends on animation.
+- AI activity animation must not imply speech capture unless the state is true and labeled.
 
 ## 6. Theme and component rules
 
-- Default initial theme respects system preference; user choice can override, persisted after the user explicitly picks a theme.
-- Theme mode must not change permissions or hidden content.
-- Keep every semantic token name stable across modes; never access `light` tokens directly in a dark-mode component.
-- Use component-level semantic variants rather than direct raw primitive colors. A danger button uses `status.danger` with a tested on-color solution; it does not use a hardcoded arbitrary red.
-- Do not assign state meaning to color alone: icon/text/status always present.
+- Keep semantic token names stable across themes; components ask for purpose, not a raw palette value.
+- Theme changes do not change permissions or hidden content.
+- Map destructive components to the existing `color.status.danger` role and use a tested on-color.
+- Use component variants and semantic tokens rather than scattered raw hex values.
+- Do not use color alone for AI/human identity, consent, audience scope, approval, success or failure.
 
-## 7. Implementation mapping (not implemented by this PR)
+## 7. Cross-platform mapping
 
-**Web:** use shadcn/ui semantic CSS variable slots (`background`, `foreground`, `primary`, `primary-foreground`, etc.). Establish a reviewed adapter from Vaartiva names to the shadcn variables; do not blindly rename them and break generated components.
+**Web:** the preview demonstrates CSS custom properties and a `data-theme` switch. An eventual shadcn/ui adapter should map these semantic roles to its `background`, `foreground`, `primary`, `primary-foreground`, `destructive`, `ring` and related slots without changing generated component APIs.
 
-**Native:** retain the *same canonical token keys* in a shared typed theme adapter; use NativeWind's supported variables/theming for the chosen version and React Native's platform-specific handling of focus, shadow, fonts and safe-area insets. A web CSS file by itself is not a native integration.
-
-**Version awareness:** NativeWind's v4 and v5 theme APIs differ. Pin the dependency in the actual implementation PR and choose one corresponding adapter; this planning document does not assume both APIs run interchangeably.
+**Native:** no React Native/Expo or NativeWind application exists in this checkout. A future typed adapter should consume the same canonical semantic keys, use OS-scalable text, platform pressed/focus behavior, safe-area surfaces and native elevation. The CSS file alone is not a native theme integration.
 
 ## 8. Verification
 
-See [contrast report](../../design/tokens/CONTRAST_REPORT.md). Selected solid-color foreground/background pairs must meet typical AA text 4.5:1 and essential UI boundary/focus 3:1 thresholds. Automated checking is useful but incomplete; follow with actual browser, native device and assistive-technology checks.
+See [the contrast report](../../docs/design/CONTRAST_REPORT.md). Listed solid foreground/background pairs meet the documented AA thresholds; browser, device and assistive-technology review remains necessary.
 
 ## Links
 
-[Brand foundations](./BRAND_FOUNDATIONS.md) · [UI kit](./UI_KIT_SPEC.md) · [Accessibility](./ACCESSIBILITY.md) · [Figma handoff](./FIGMA_HANDOFF.md)
-
-Official references: https://ui.shadcn.com/docs/theming · https://www.nativewind.dev/docs/guides/themes · https://www.w3.org/TR/WCAG22/
+[Brand foundations](../../docs/design/BRAND_FOUNDATIONS.md) · [UI kit](../../docs/design/UI_KIT_SPEC.md) · [Accessibility](../../docs/design/ACCESSIBILITY.md) · [Figma handoff](../../docs/design/FIGMA_HANDOFF.md)

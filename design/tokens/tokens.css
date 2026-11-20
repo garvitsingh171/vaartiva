@@ -1,42 +1,66 @@
-/* VRT-004 proposal. Source of truth: tokens.json. */
+/* VRT-004 refined palette. Source of truth: tokens.json. */
 :root, [data-theme="light"] {
-  --v-bg-canvas: #F7F9FC;
-  --v-bg-surface: #FFFFFF;
-  --v-bg-raised: #EFF3F9;
-  --v-text-primary: #1A2A40;
-  --v-text-secondary: #52637A;
-  --v-border-interactive: #8495AC;
-  --v-action-primary: #3856D6;
-  --v-action-primary-hover: #2942AB;
+  --v-bg-canvas: #F8F5F1;
+  --v-bg-surface: #FEFCFA;
+  --v-bg-raised: #F0ECE7;
+  --v-bg-popover: #FEFCFA;
+  --v-bg-disabled: #E8E3DD;
+  --v-text-primary: #272427;
+  --v-text-secondary: #625B57;
+  --v-text-disabled: #625B57;
+  --v-border-interactive: #827A74;
+  --v-border-subtle: #D4CDC6;
+  --v-action-primary: #9C3D20;
+  --v-action-primary-hover: #7D301A;
   --v-action-on-primary: #FFFFFF;
-  --v-ai-accent: #6842B5;
+  --v-action-secondary: #F0ECE7;
+  --v-action-on-secondary: #272427;
+  --v-ai-accent: #80531B;
   --v-ai-on-accent: #FFFFFF;
-  --v-ai-surface: #F0EAFE;
-  --v-ai-on-surface: #582F9B;
-  --v-status-success: #166A49;
-  --v-status-warning: #805200;
-  --v-status-danger: #A92D26;
-  --v-focus-ring: #0A5ABD;
+  --v-ai-surface: #F0E5D2;
+  --v-ai-on-surface: #654316;
+  --v-status-success: #315B73;
+  --v-status-success-surface: #F1F5F7;
+  --v-status-warning: #70470C;
+  --v-status-warning-surface: #F5EAD6;
+  --v-status-danger: #A12E28;
+  --v-status-danger-surface: #FBEFEE;
+  --v-status-on-danger: #FFFFFF;
+  --v-status-information: #315B73;
+  --v-status-information-surface: #EAF1F5;
+  --v-focus-ring: #9C3D20;
   color-scheme: light;
 }
 [data-theme="dark"] {
-  --v-bg-canvas: #0D1627;
-  --v-bg-surface: #151F34;
-  --v-bg-raised: #21304B;
-  --v-text-primary: #F2F5FF;
-  --v-text-secondary: #B6C7DF;
-  --v-border-interactive: #8091AF;
-  --v-action-primary: #AFC3FF;
-  --v-action-primary-hover: #CCD8FF;
-  --v-action-on-primary: #0D1627;
-  --v-ai-accent: #CFB8FF;
-  --v-ai-on-accent: #0D1627;
-  --v-ai-surface: #2C2142;
-  --v-ai-on-surface: #E3D5FF;
-  --v-status-success: #67DAB1;
-  --v-status-warning: #FFD27A;
-  --v-status-danger: #FFA7A0;
-  --v-focus-ring: #B7C8FF;
+  --v-bg-canvas: #141316;
+  --v-bg-surface: #1E1C20;
+  --v-bg-raised: #2A272C;
+  --v-bg-popover: #1E1C20;
+  --v-bg-disabled: #302D32;
+  --v-text-primary: #F4F0EC;
+  --v-text-secondary: #C0B9B3;
+  --v-text-disabled: #A099A2;
+  --v-border-interactive: #827B82;
+  --v-border-subtle: #3A363D;
+  --v-action-primary: #F6A17E;
+  --v-action-primary-hover: #FFC0A5;
+  --v-action-on-primary: #2D1911;
+  --v-action-secondary: #2A272C;
+  --v-action-on-secondary: #F4F0EC;
+  --v-ai-accent: #F4D097;
+  --v-ai-on-accent: #322514;
+  --v-ai-surface: #382F23;
+  --v-ai-on-surface: #F4D097;
+  --v-status-success: #A9CDE2;
+  --v-status-success-surface: #24313A;
+  --v-status-warning: #F3C66F;
+  --v-status-warning-surface: #39301F;
+  --v-status-danger: #FFAAA3;
+  --v-status-danger-surface: #392423;
+  --v-status-on-danger: #392423;
+  --v-status-information: #A9CDE2;
+  --v-status-information-surface: #24313A;
+  --v-focus-ring: #F6A17E;
   color-scheme: dark;
 }
 :root {
@@ -78,4 +102,10 @@
   --v-motion-slow: 320ms;
   --v-focus-width: 2px;
 }
-@media (prefers-reduced-motion: reduce) { :root { --v-motion-fast: 0ms; --v-motion-normal: 0ms; --v-motion-slow: 0ms; } }
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --v-motion-fast: 0ms;
+    --v-motion-normal: 0ms;
+    --v-motion-slow: 0ms;
+  }
+}
