@@ -142,7 +142,9 @@ Node.js requirements for frameworks and native tooling, or uv for Python service
 ### Repository structure
 
 ```text
-apps/                    Future web, mobile, and business API applications
+apps/web/                Next.js App Router application (VRT-012)
+apps/mobile/             Future Expo React Native application
+apps/api/                Future Express business API
 services/ai-worker/      Future independent Python AI service
 packages/                Shared TypeScript configuration and future shared packages
 design/tokens/           Canonical design tokens and their workspace manifest
@@ -163,7 +165,7 @@ workspace.
 - Bun **1.3.14**, pinned in `packageManager` and `engines` in the root `package.json`. Install Bun
   using the [official installation instructions](https://bun.sh/docs/installation), then verify
   `bun --version` prints `1.3.14`.
-- Node.js **20.9.0 or newer** for the planned Next.js and native JavaScript tooling. Verify using
+- Node.js **20.19.0 or newer** for the web toolchain and planned native JavaScript tooling. Verify using
   `node --version`.
 - Python and uv will be needed only when `services/ai-worker` is initialized. No Python packages
   are installed or validated by the root JavaScript commands.
@@ -187,15 +189,12 @@ bun run dev --filter=@vaartiva/mobile
 bun run dev --filter=@vaartiva/api
 ```
 
-These application commands are planned; the corresponding apps do not yet exist. Root commands
-`dev`, `build`, `lint`, `typecheck`, and `test` delegate to Turbo. At this stage only the
-design-token workspace registers a `typecheck` task, which compiles a small consumer against its
-token JSON and the shared TypeScript configuration.
-There are no app build, lint, test, or development server tasks yet. An empty Turbo task run does
-not mean that an application was built or tested. `format` and `format:check` use the root Prettier
-configuration; `check` runs the implemented formatting check and TypeScript configuration
-consumption check. Individual `lint`, `test`, and `build` commands are wired to Turbo but currently
-have no registered workspace tasks.
+The web workspace is initialized. Its filtered dev, build, lint, and typecheck commands are
+available. Mobile and API commands remain planned because those apps are not initialized. Root
+commands delegate to Turbo; typecheck tasks exist for the web and design-token workspaces. No test
+task is registered yet. An empty Turbo task run is not evidence of a build or test. `format` and
+`format:check` use the root Prettier configuration; `check` runs the implemented formatting and
+typecheck commands.
 
 ### Internal package conventions
 
@@ -211,13 +210,13 @@ also verifies its `workspace:*` dependency resolution.
 Add a JavaScript dependency to its owning workspace with Bun, from the repository root:
 
 ```bash
-bun add <package> --filter @vaartiva/web
+bun add --cwd apps/web <package>
 ```
 
-Use `bun add --dev <package> --filter @vaartiva/web` for a development dependency. Replace the
-filter with the workspace that owns the dependency. Do not add dependencies to the root merely to
-make them accidentally resolvable in another workspace. Python dependencies belong to the AI
-service's future `pyproject.toml` and `uv.lock` and are managed with uv.
+Use `bun add --cwd apps/web --dev <package>` for a development dependency. Change `--cwd` to the
+workspace that owns the dependency. Do not add dependencies to the root merely to make them
+accidentally resolvable in another workspace. Python dependencies belong to the AI service's future
+`pyproject.toml` and `uv.lock` and are managed with uv.
 
 ### Environment variables and trust boundaries
 
