@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "exports": {
-    "./tokens.json": "./tokens.json"
+    "./tokens.json": "./tokens.json",
+    "./tokens.css": "./tokens.css"
   },
   "files": [
-    "tokens.json"
+    "tokens.json",
+    "tokens.css"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json"

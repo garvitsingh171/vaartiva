@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@import '@vaartiva/design-tokens/tokens.css';
+
+@theme inline {
+  --color-canvas: var(--v-bg-canvas);
+  --color-surface: var(--v-bg-surface);
+  --color-raised: var(--v-bg-raised);
+  --color-foreground: var(--v-text-primary);
+  --color-muted-foreground: var(--v-text-secondary);
+  --color-primary: var(--v-action-primary);
+  --color-primary-foreground: var(--v-action-on-primary);
+  --color-border: var(--v-border-subtle);
+  --color-focus-ring: var(--v-focus-ring);
+  --color-status-success: var(--v-status-success);
+  --font-sans: var(--v-font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--v-bg-canvas);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--v-bg-canvas);
+  color: var(--v-text-primary);
+}
+
+::selection {
+  background: var(--v-action-primary);
+  color: var(--v-action-on-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--v-focus-ring);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

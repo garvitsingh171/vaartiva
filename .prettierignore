@@ -2,6 +2,7 @@ node_modules/
 .turbo/
 .git/
 .next/
+**/next-env.d.ts
 out/
 dist/
 build/
