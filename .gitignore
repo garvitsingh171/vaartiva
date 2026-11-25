@@ -69,6 +69,37 @@ web_modules/
 .env
 .env.*
 !.env.example
+!.env.*.example
+
+# JavaScript workspace and generated application files
+node_modules/
+.turbo/
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+.expo/
+
+# Python and uv generated files
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local credentials, signing material, and operating system files
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
