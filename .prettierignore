@@ -1,0 +1,14 @@
+node_modules/
+.turbo/
+.git/
+.next/
+out/
+dist/
+build/
+coverage/
+design/tokens/tokens.json
+/README.md
+/docs/
+/design/UI_KIT_PREVIEW.html
+/design/tokens/DESIGN_TOKENS.md
+/design/tokens/tokens.css

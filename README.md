@@ -119,3 +119,134 @@ To build an intelligent collaboration platform where meetings do more than conne
 ---
 
 **Vaartiva — Meet together. Think together. Get things done.**
+
+## Engineering foundation
+
+### Monorepo overview
+
+Vaartiva uses Bun workspaces to install and link JavaScript and TypeScript packages from one root
+manifest and lockfile. Turborepo runs workspace scripts as a dependency-aware task graph and caches
+deterministic tasks locally. Bun handles JavaScript dependency management; it does not replace
+Node.js requirements for frameworks and native tooling, or uv for Python services.
+
+### Technology stack
+
+- Web: Next.js App Router and TypeScript (reserved; application not initialized).
+- Mobile: Expo React Native (reserved; application not initialized).
+- Business API: Express and TypeScript (reserved; application not initialized).
+- AI service: FastAPI and Python, managed independently with uv (reserved; service not initialized).
+- Shared TypeScript presets: `@vaartiva/typescript-config`.
+- Canonical cross-platform tokens: `@vaartiva/design-tokens`, backed by the existing
+  `design/tokens/tokens.json` source.
+
+### Repository structure
+
+```text
+apps/                    Future web, mobile, and business API applications
+services/ai-worker/      Future independent Python AI service
+packages/                Shared TypeScript configuration and future shared packages
+design/tokens/           Canonical design tokens and their workspace manifest
+infra/                   Reserved infrastructure configuration
+docs/                    Product, architecture, security, privacy, and engineering docs
+.github/                 Reserved GitHub workflows and repository templates
+package.json             Bun workspace root and repository commands
+bun.lock                 Single JavaScript dependency lockfile
+turbo.json               Turborepo task graph and local cache configuration
+```
+
+The app and service folders are intentionally reserved with short responsibility notes. They have
+no package manifests until they contain real application functionality. Python is not a Bun
+workspace.
+
+### Development prerequisites and setup
+
+- Bun **1.3.14**, pinned in `packageManager` and `engines` in the root `package.json`. Install Bun
+  using the [official installation instructions](https://bun.sh/docs/installation), then verify
+  `bun --version` prints `1.3.14`.
+- Node.js **20.9.0 or newer** for the planned Next.js and native JavaScript tooling. Verify using
+  `node --version`.
+- Python and uv will be needed only when `services/ai-worker` is initialized. No Python packages
+  are installed or validated by the root JavaScript commands.
+
+From the repository root, install and check the current foundation:
+
+```bash
+bun --version
+node --version
+bun install --frozen-lockfile
+bun run check
+```
+
+### Workspace commands and status
+
+Run a task for an initialized workspace using Turbo filters, for example:
+
+```bash
+bun run dev --filter=@vaartiva/web
+bun run dev --filter=@vaartiva/mobile
+bun run dev --filter=@vaartiva/api
+```
+
+These application commands are planned; the corresponding apps do not yet exist. Root commands
+`dev`, `build`, `lint`, `typecheck`, and `test` delegate to Turbo. At this stage only the
+design-token workspace registers a `typecheck` task, which compiles a small consumer against its
+token JSON and the shared TypeScript configuration.
+There are no app build, lint, test, or development server tasks yet. An empty Turbo task run does
+not mean that an application was built or tested. `format` and `format:check` use the root Prettier
+configuration; `check` runs the implemented formatting check and TypeScript configuration
+consumption check. Individual `lint`, `test`, and `build` commands are wired to Turbo but currently
+have no registered workspace tasks.
+
+### Internal package conventions
+
+Private internal packages use the `@vaartiva/*` namespace. Applications must declare every shared
+package they consume as a workspace dependency (for example,
+`"@vaartiva/typescript-config": "workspace:*"`) and must not import another application's
+internals. The design-token workspace exports the existing `tokens.json`; no second token source is
+maintained. The TypeScript presets are described in
+[`packages/typescript-config/README.md`](./packages/typescript-config/README.md). The design-token
+workspace typechecks representative light and dark tokens through the shared base preset, which
+also verifies its `workspace:*` dependency resolution.
+
+Add a JavaScript dependency to its owning workspace with Bun, from the repository root:
+
+```bash
+bun add <package> --filter @vaartiva/web
+```
+
+Use `bun add --dev <package> --filter @vaartiva/web` for a development dependency. Replace the
+filter with the workspace that owns the dependency. Do not add dependencies to the root merely to
+make them accidentally resolvable in another workspace. Python dependencies belong to the AI
+service's future `pyproject.toml` and `uv.lock` and are managed with uv.
+
+### Environment variables and trust boundaries
+
+Each deployable app or service owns its own `.env.example` when it has established configuration;
+no example files or integration variables are invented before then. Copy an example to a local
+ignored `.env` file only when a workspace documents the variables it needs. Never commit secrets.
+
+Next.js `NEXT_PUBLIC_*` and Expo `EXPO_PUBLIC_*` variables are included in client-visible code or
+bundles and must contain no secrets. Database credentials, LiveKit API secrets, and AI provider keys
+remain server-side. Mobile clients cannot securely hold embedded server credentials. Shared
+packages must not read or expose server secrets. Web and mobile do not connect directly to
+PostgreSQL; the API remains authoritative for business logic and authorization. Python worker code
+is not imported by clients, and private AI knowledge is still subject to source permissions and
+runtime authorization regardless of monorepo location. These boundaries reflect the existing
+[trust-boundary documentation](./docs/architecture/trust-boundaries.md).
+
+Turborepo uses strict environment handling. When applications add build-affecting environment
+variables, declare only the required names in task `env` or `globalEnv` so they participate in
+cache keys. Do not pass secrets or all environment variables through unrestricted wildcards. Remote
+caching is not enabled; the current cache is local under `.turbo/`.
+
+### Generated files and troubleshooting
+
+Git ignores dependency directories, Turbo and framework caches, build outputs, TypeScript build
+metadata, Python virtual environments and caches, local environment files, common signing keys, and
+OS temporary files. Bun and uv lockfiles are not ignored. `.env.example` and `.env.*.example` files
+remain trackable. Native Android and iOS project directories are not broadly ignored.
+
+If frozen installation fails, first verify that `bun --version` is exactly `1.3.14`, then rerun
+`bun install` after an intentional manifest change and commit the resulting `bun.lock` update. A
+`bun run check` failure can refer to formatting or the real TypeScript smoke check; empty Turbo task
+sets for future applications are not evidence of those applications passing validation.
